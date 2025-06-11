@@ -3,6 +3,8 @@ import todoListReducer from "./todoSlices";
 
 export const store = configureStore({
   reducer: {
-    todoList: todoListReducer,
+    todo: todoListReducer,
   },
 });
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;

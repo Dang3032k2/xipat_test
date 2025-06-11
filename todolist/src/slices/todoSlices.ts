@@ -1,31 +1,40 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { ITodoItem } from "../types";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { ITodoItem, TODO_STATUS } from "../types";
 import { v4 } from "uuid";
 
 const initialState = {
   todoList: [] as ITodoItem[],
 };
 const todoListSlice = createSlice({
-  name: "todoList",
+  name: "todo",
   initialState: initialState,
   reducers: {
-    addTodo: (state, action) => {
-      state.todoList.push({ ...action.payload, completed: false, id: v4() });
+    addTodo: (state, action: PayloadAction<ITodoItem>) => {
+      console.log("add", action.payload);
+      state.todoList.push({
+        ...action.payload,
+        completed: TODO_STATUS.WAITING_FOR_PROSESSING,
+        id: v4(),
+      });
     },
-    editTodo: (state, action) => {
-      const todo = state.todoList.find((todo) => todo.id === action.payload.id);
-      if (todo) {
-        todo.name = action.payload.name;
-        todo.desc = action.payload.desc;
+    editTodo: (state, action: PayloadAction<ITodoItem>) => {
+      const index = state.todoList.findIndex(
+        (todo) => todo.id === action.payload.id
+      );
+      if (index !== -1) {
+        state.todoList[index] = { ...state.todoList[index], ...action.payload };
       }
     },
     toggleTodo: (state, action) => {
       const todo = state.todoList.find((todo) => todo.id === action.payload);
       if (todo) {
-        todo.completed = !todo.completed;
+        todo.completed =
+          todo.completed === TODO_STATUS.COMPLETED
+            ? TODO_STATUS.WAITING_FOR_PROSESSING
+            : TODO_STATUS.COMPLETED;
       }
     },
-    deleteTodo: (state, action) => {
+    deleteTodo: (state, action: PayloadAction<string>) => {
       state.todoList = state.todoList.filter(
         (todo) => todo.id !== action.payload
       );
