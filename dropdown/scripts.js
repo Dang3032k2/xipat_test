@@ -15,7 +15,7 @@ const selectItem = (item, index) => {
 
 const handleArrow = (e) => {
   e.preventDefault();
-  if (e.key === "Enter") {
+  if (e.key === "Enter" && menu.classList.contains('show')) {
     selectItem(options[currentIndex], currentIndex);
     return;
   } else if (e.key === "ArrowDown") {
@@ -36,7 +36,6 @@ toggleButton.addEventListener("click", () => {
 document.addEventListener("click", (e) => {
   if (!toggleButton.contains(e.target)) {
     menu.classList.remove("show");
-    currentIndex = -1;
   }
 });
 dropdownContainer.addEventListener("keydown", handleArrow);
