@@ -11,7 +11,7 @@ export async function getStaticProps() {
     },
   };
 }
-export default function BlogList({ posts }: { posts: Post[] }) {
+const BlogList = ({ posts }: { posts: Post[] }) => {
   return (
     <>
       <Head>
@@ -36,4 +36,5 @@ export default function BlogList({ posts }: { posts: Post[] }) {
       </main>
     </>
   );
-}
+};
+export default BlogList;
