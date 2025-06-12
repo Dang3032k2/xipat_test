@@ -1,9 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ITodoItem, TODO_STATUS } from "../types";
 import { v4 } from "uuid";
-
+const loadTodos = (): ITodoItem[] => {
+  const saved = localStorage.getItem("todoList");
+  return saved ? JSON.parse(saved) : [];
+};
 const initialState = {
-  todoList: [] as ITodoItem[],
+  todoList: loadTodos(),
 };
 const todoListSlice = createSlice({
   name: "todo",

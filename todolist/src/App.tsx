@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import ModalAction from "./components/ModalAction";
 import Todo from "./components/Todo";
-import { RootState } from "./slices/store";
+import { RootState, store } from "./slices/store";
 import { ACTION_TYPE_ENUM, TODO_STATUS } from "./types";
 
 function App() {
@@ -65,6 +65,12 @@ function App() {
     selectedStatus === TODO_STATUS.ALL
       ? todoList
       : todoList.filter((item) => item.completed === selectedStatus);
+  store.subscribe(() => {
+    localStorage.setItem(
+      "todoList",
+      JSON.stringify(store.getState().todo.todoList)
+    );
+  });
   return (
     <div className="flex justify-center h-[100vh]">
       <div className="w-2/5">
